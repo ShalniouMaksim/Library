@@ -9,15 +9,15 @@ const app = express();
 
 connect();
 async function start() {
-    try {
-        app.use('/user', routerUser);
-        app.use('/book', routerBook);
-        app.listen(PORT, () => {
-            console.log('Server has been started...');
-        });
+  try {
+    app.use('/user', routerUser);
+    app.use('/book', routerBook);
+    app.listen(PORT, () => {
+      console.log('Server has been started...');
+    });
 
-    } catch (e) {
-        console.log(e, ' Error');
-    }
+  } catch (e) {
+    console.log(e, ' Error');
+  }
 }
 start();
