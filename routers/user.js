@@ -1,44 +1,24 @@
+const bodyParser = require('body-parser');
 const express = require('express');
-const routerUser = express.Router();
 const {
-  deleteUser,
-  createUser,
-  updateUser,
-  findUser,
-} = require('../models/user');
-routerUser.use(function timeLog(req, res, next) {
-  console.log('Time: ', Date.now());
-  next();
-});
-routerUser.get('/', async function (request, response) {
-  const usersGet = await findUser();
-  response.send(`${usersGet}`);
-}).post('/', async function (request, response) {
-  if (request.query) {
-    createUser(request.query);
-    response.sendStatus(200);
-  }
-  else
-    response.sendStatus(400);
-}).put('/', async function (request, response) {
-  if (request.query.id) {
-    updateUser(request.query.id, request.query);
-    response.sendStatus(200);
-  }
-  else
-    response.sendStatus(400);
-}).delete('/', async function (request, response) {
-  if (request.query.id) {
-    deleteUser(request.query.id);
-    response.sendStatus(200);
-  }
-  else {
-    response.sendStatus(400);
-  }
-});
+    getUser,
+    postUser,
+    putUser,
+    deleteUser,
+} = require('../service/user');
 
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const routerUser = express.Router();
+routerUser.get('/', async function(request, response) {
+    getUser(request, response);
+}).post('/', urlencodedParser, async function(request, response) {
+    postUser(request, response);
+}).put('/', urlencodedParser, async function(request, response) {
+    putUser(request, response);
+}).delete('/', urlencodedParser, async function(request, response) {
+    deleteUser(request, response);
+});
 
 module.exports = {
-  routerUser,
+    routerUser,
 };
-

@@ -1,46 +1,45 @@
-const format = require('date-fns/format');
-
 const mongoose = require('mongoose');
 const { uuid } = require('uuidv4');
 const Book = mongoose.model('Book', {
-    id: String, name: String,
-    author: String, date: String,
+    id: String,
+    name: String,
+    author: String,
+    date: String,
     available: Boolean,
-    page: Number, genre: String
+    page: Number,
+    genre: String,
 });
 
-const deleteBook = async (id) => {
-    const books = await findBook();
-    books.map((book) => {
-        if (book.id === id) {
-            Book.deleteOne(book, function (err, result) {
-                if (err) return console.log(err);
-                console.log(result);
-            }); //delete
-        }
-    });
+const removeBook = async id => {
+    Book.findOneAndDelete({ id }, (err, res) => {
+        if (res) console.log(res);
+        else
+            console.log('Not deleted');
+    }); //delete
 };
 
-const createBook = async (book) => {
+const createBook = async book => {
     Book.create({
         id: uuid(),
-        name: book.name, author: book.author,
+        name: book.name,
+        author: book.author,
         date: book.date,
         available: book.available,
-        page: book.page, genre: book.genre,
+        page: book.page,
+        genre: book.genre,
     });
 };
 
-const updateBook = async (id, book) => {
-    await Book.updateOne({ id }, book); // req update
+const updateBook = async book => {
+    await Book.updateOne({ id: book.id }, book); // req update
 };
 
-const findBook = async () => {
-    return await Book.find();//read
+const findBook = async() => {
+    return await Book.find(); //read
 };
 
 module.exports = {
-    deleteBook,
+    removeBook,
     createBook,
     updateBook,
     findBook,

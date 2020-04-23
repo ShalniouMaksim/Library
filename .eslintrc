@@ -1,6 +1,34 @@
 {
   "parser": "esprima",
   "rules": {
-      "semi": 2
+      "arrow-parens": ["error", "as-needed"],
+      "semi":"error",
+      "prefer-destructuring":"error",
+      "max-len": [
+        "warn",
+        {
+          "code": 100,
+          "ignoreUrls": true,
+          "ignorePattern": "import"
+        }
+      ],
+      "no-unused-vars": "warn",
+      "operator-linebreak": "warn",
+
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ],
+      "prefer-const": [
+        "error",
+        {
+          "destructuring": "any",
+          "ignoreReadBeforeAssign": false
+        }
+      ]
+    }
   }
-}

@@ -1,42 +1,45 @@
 const mongoose = require('mongoose');
 const { uuid } = require('uuidv4');
 const User = mongoose.model('User', {
-    id: String, firstName: String,
-    lastName: String, mail: String,
-    department: String, location: String,
-    officeNumber: Number
+    id: String,
+    firstName: String,
+    lastName: String,
+    mail: String,
+    department: String,
+    location: String,
+    officeNumber: Number,
 });
 
-const deleteUser = async (id) => {
-    const users = await findUser();
-    users.map((user) => {
-        if (user.id === id) {
-            User.deleteOne(user, function (err, result) {
-                if (err) return console.log(err);
-                console.log(result);
-            });//delete
-        }
-    });
+const removeUser = async id => {
+    User.findOneAndDelete({ id }, (err, res) => {
+        if (res) console.log(res);
+        else
+            console.log('Not deleted');
+    }); //delete
 };
 
-const createUser = async (user) => {
+const createUser = async user => {
     User.create({
-        id: uuid(), firstName: user.firstName,
+        id: uuid(),
+        firstName: user.firstName,
         lastName: user.lastName,
-        mail: user.mail, department: user.department, location: user.location, officeNumber: user.officeNumber
+        mail: user.mail,
+        department: user.department,
+        location: user.location,
+        officeNumber: user.officeNumber,
     });
 };
 
-const updateUser = async (id, user) => {
-    await User.updateOne({ id }, user);// req update
+const updateUser = async user => {
+    await User.updateOne({ id: user.id }, user); // req update
 };
 
-const findUser = async () => {
-    return await User.find();// read
+const findUser = async() => {
+    return await User.find(); // read
 };
 
 module.exports = {
-    deleteUser,
+    removeUser,
     createUser,
     updateUser,
     findUser,
