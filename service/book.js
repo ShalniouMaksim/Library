@@ -7,38 +7,43 @@ const {
 
 
 const getBook = async() => {
-  const booksGet = await findBook();
-  if (booksGet.length !== 0) {
-    return booksGet;
-  } else {
-    return 'Books is empty.';
-  }
+  const book = await findBook();
+  if (book) {
+    return { status: 200, book };
+  } else
+    return { status: 500, book: 'Get book returned error!' };
 };
 
 const postBook = async book => {
   if (book) {
-    if (createBook(book)) {
-      return 201;
+    if (await createBook(book)) {
+      return { status: 200, book };
     } else {
-      return 400;
+      return { status: 500, book: 'Create book returned error!' };
     }
   }
 };
 
 const putBook = async book => {
-  if (await updateBook(book)) {
-    return 200;
-  } else {
-    return 400;
-  }
+  if (book.id) {
+    if (await updateBook(book)) {
+      return { status: 200, book };
+    } else {
+      return { status: 500, book: 'Update book returned error!' };
+    }
+  } else
+    return { status: 400, book: 'Error validation' };
 };
 
-const deleteBook = async bookId => {
-  if (await removeBook(bookId)) {
-    return 200;
-  } else {
-    return 400;
-  }
+const deleteBook = async book => {
+  if (book.id) {
+    if (await removeBook(book.id)) {
+      return { status: 200, book };
+    } else {
+      return { status: 500, book: 'Delete book returned error!' };
+    }
+  } else
+    return { status: 400, book: 'Error validation' };
 };
 
 module.exports = {

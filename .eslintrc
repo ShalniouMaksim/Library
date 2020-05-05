@@ -3,6 +3,6 @@
       "nodejs"
   ],
   "parserOptions": {
-    "sourceType": "module",
+    "sourceType": "module"
 }
 }

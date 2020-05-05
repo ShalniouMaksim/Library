@@ -21,38 +21,36 @@ const schemaUserValidate = Joi.object().keys({
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const routerUser = express.Router();
 routerUser.get('/', async(request, response) => {
-  const usersGet = await getUser();
-  response.send(usersGet);
+  const res = await getUser();
+  response.status(res.status).send(res.user);
 
 }).post('/', urlencodedParser, async(request, response) => {
-  if (request.body) {
-    Joi.validate(request.body, schemaUserValidate, async err => {
-      if (err) {
-        response.sendStatus(400);
-      } else {
-        const res = await postUser(request.body);
-        response.sendStatus(res);
-      }
-    });
-  }
+  Joi.validate(request.body, schemaUserValidate, async err => {
+    if (err) {
+      response.status(400).send('Error validation');
+    } else {
+      const res = await postUser(request.body);
+      response.status(res.status).send(res.user);
+    }
+  });
 }).put('/', urlencodedParser, async(request, response) => {
-  if (request.body.id) {
-    Joi.validate(request.body, schemaUserValidate, async err => {
-      if (err) {
-        response.sendStatus(400);
-      } else {
-        const res = await putUser(request.body);
-        response.sendStatus(res);
-      }
-    });
-  }
+  Joi.validate(request.body, schemaUserValidate, async err => {
+    if (err) {
+      response.status(400).send('Error validation');
+    } else {
+      const res = await putUser(request.body);
+      response.status(res.status).send(res.user);
+    }
+  });
 }).delete('/', urlencodedParser, async(request, response) => {
-  if (request.body.id) {
-    const res = await deleteUser(request.body.id);
-    response.sendStatus(res);
-  } else {
-    response.sendStatus(400);
-  }
+  Joi.validate(request.body, schemaUserValidate, async err => {
+    if (err) {
+      response.status(400).send('Error validation');
+    } else {
+      const res = await deleteUser(request.body);
+      response.status(res.status).send(res.user);
+    }
+  });
 });
 
 module.exports = {

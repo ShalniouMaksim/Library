@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+      "outDir": "dist",
+      "module": "esnext",
+      "target": "ES2017",
+      "moduleResolution": "node",
+      "jsx": "react",
+      "sourceMap": true,
+      "strict": true,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitReturns": true,
+      "noEmitOnError": true,
+      "lib": [
+        "dom",
+        "dom.iterable",
+        "esnext"
+      ],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "include": [
+      "service"
+    ]
+  }

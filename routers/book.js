@@ -23,35 +23,34 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const routerBook = express.Router();
 routerBook.get('/', async(request, response) => {
   const res = await getBook();
-  response.send(res);
+  response.status(res.status).send(res.book);
 }).post('/', urlencodedParser, async(request, response) => {
-  if (request.body) {
-    Joi.validate(request.body, schemaBookValidate, async err => {
-      if (err) {
-        response.sendStatus(400);
-      } else {
-        const res = await postBook(request.body);
-        response.sendStatus(res);
-      }
-    });
-  }
+  Joi.validate(request.body, schemaBookValidate, async err => {
+    if (err) {
+      response.status(400).send('Error validation');
+    } else {
+      const res = await postBook(request.body);
+      response.status(res.status).send(res.book);
+    }
+  });
 }).put('/', urlencodedParser, async(request, response) => {
-  if (request.body.id) {
-    Joi.validate(request.body, schemaBookValidate, async err => {
-      if (err) {
-        response.sendStatus(400);
-      } else {
-        const res = await putBook(request.body);
-        response.sendStatus(res);
-      }
-    });
-  }
+  Joi.validate(request.body, schemaBookValidate, async err => {
+    if (err) {
+      response.status(400).send('Error validation');
+    } else {
+      const res = await putBook(request.body);
+      response.status(res.status).send(res.book);
+    }
+  });
 }).delete('/', urlencodedParser, async(request, response) => {
-  if (request.body.id) {
-    const res = await deleteBook(request.body.id);
-    response.sendStatus(res);
-  } else
-    response.sendStatus(400);
+  Joi.validate(request.body, schemaBookValidate, async err => {
+    if (err) {
+      response.status(400).send('Error validation');
+    } else {
+      const res = await deleteBook(request.body);
+      response.status(res.status).send(res.book);
+    }
+  });
 });
 
 module.exports = {
